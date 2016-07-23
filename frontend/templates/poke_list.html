@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+
+{% block title %}Poke List{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Dashboard</h1>
+
+
+<h2 class="sub-header">Player Stats</h2>
+
+<div class="progress">
+  <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+    <span class="sr-only">40% Complete (success)</span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+<h2></h2>
+    <p>
+<b>Level:</b> {{ player_stats.0.level }} <br />
+<b>Experience:</b> {{ player_stats.0.experience }} | {{ player_stats.0.next_level_xp }} <br />
+<b>Pokemons Captured:</b> {{ player_stats.0.pokemons_captured }} <br />
+<b>Unique Pokedex entries:</b> {{ player_stats.0.unique_pokedex_entries }} <br />
+<b>KM walked:</b> {{ player_stats.0.km_walked }} <br />
+
+
+</p>
+</div>
+</div>
+<h2 class="sub-header">Inventory Items</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Item ID</th>
+        <th>Count</th>
+        <th>Unseen</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items_list %}
+      <tr>
+        <td>{{ item.item_id }}</td>
+        <td>{{ item.count }}</td>
+        <td>{{ item.unseen }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<h2 class="sub-header">Pokemon List</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>CP</th>
+        <th>
+          Stamina
+        </th>
+        <th>IV Values</th>
+        <th>Moves</th>
+        <th>H / W</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pokemon in pokemon_list %}
+      {% if not pokemon.is_egg %}
+      <tr>
+        <td>{{ pokemon.pokemon_id }}</td>
+        <td>{{ pokemon.cp }}<br />Multiplier: {{ pokemon.cp_multiplier }}</td>
+        <td> Normal: {{ pokemon.stamina }} <br />
+          Max: {{ pokemon.stamina_max }}
+        </td>
+        <td>
+          A: {{ pokemon.individual_attack }} <br />
+          D: {{ pokemon.individual_defense }} <br />
+          S: {{ pokemon.individual_stamina }} <br />
+        </td>
+        <td>1: {{ pokemon.move_1 }} <br />
+            2: {{ pokemon.move_2 }}
+        </td>
+        <td>
+          Height: {{ pokemon.height_m }} <br />
+          Weight: {{ pokemon.weight_kg }}
+        </td>
+      </tr>
+    {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
