@@ -10,6 +10,11 @@ admin.site.register(Statistics)
 admin.site.register(Eggs)
 admin.site.register(Profile)
 admin.site.register(PokeData)
-admin.site.register(Pokemon)
+
+class PokemonAdmin(admin.ModelAdmin):
+    list_display = ('pokemon_id', 'individual_id')
+    pass
+
+admin.site.register(Pokemon, PokemonAdmin)
 admin.site.register(InventoryItem)
 admin.site.register(ItemData)
