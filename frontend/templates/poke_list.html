@@ -18,16 +18,110 @@
   <div class="col-md-12">
 <h2></h2>
     <p>
-<b>Level:</b> {{ player_stats.0.level }} <br />
-<b>Experience:</b> {{ player_stats.0.experience }} | {{ player_stats.0.next_level_xp }} <br />
-<b>Pokemons Captured:</b> {{ player_stats.0.pokemons_captured }} <br />
-<b>Unique Pokedex entries:</b> {{ player_stats.0.unique_pokedex_entries }} <br />
-<b>KM walked:</b> {{ player_stats.0.km_walked }} <br />
-
-
+<b>Name:</b> {{ profile.player_name }}<br />
+<b>Level:</b> {{ profile.statistics.level }} <br />
+<b>Experience:</b> {{ profile.statistics.experience }} | {{ profile.statistics.next_level_xp }} <br />
+<b>Pokemons Captured:</b> {{ profile.statistics.pokemons_captured }} <br />
+<b>Unique Pokedex entries:</b> {{ profile.statistics.unique_pokedex_entries }} <br />
+<b>KM walked:</b> {{ profile.statistics.km_walked }} <br />
+{% if profile.account.ptc %}
+PTC Account
+{% else %}
+Google Account
+{% endif %}
 </p>
 </div>
 </div>
+
+<h2>Location</h2>
+    <script src="http://openlayers.org/en/v3.17.1/build/ol.js"></script>
+
+
+<div id="map" class="map"></div>
+<script>
+  var map = new ol.Map({
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM({
+          wrapX: false
+        })
+      })
+    ],
+    controls: ol.control.defaults({
+      attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+        collapsible: false
+      })
+    }),
+    target: 'map',
+    view: new ol.View({
+      center: ol.proj.transform([{{ location.lng }},{{location.lat}}], 'EPSG:4326', 'EPSG:3857'),
+      zoom: 15
+    })
+  });
+
+  var source = new ol.source.Vector({
+    wrapX: false
+  });
+  var vector = new ol.layer.Vector({
+    source: source
+  });
+  map.addLayer(vector);
+
+
+        function addRandomFeature() {
+          var x = Math.random() * 360 - 180;
+          var y = Math.random() * 180 - 90;
+          var geom = new ol.geom.Point(ol.proj.transform([{{ location.lng }}, {{ location.lat }}],
+              'EPSG:4326', 'EPSG:3857'));
+          var feature = new ol.Feature(geom);
+          source.addFeature(feature);
+        }
+
+        var duration = 3000;
+        function flash(feature) {
+          var start = new Date().getTime();
+          var listenerKey;
+
+          function animate(event) {
+            var vectorContext = event.vectorContext;
+            var frameState = event.frameState;
+            var flashGeom = feature.getGeometry().clone();
+            var elapsed = frameState.time - start;
+            var elapsedRatio = elapsed / duration;
+            // radius will be 5 at start and 30 at end.
+            var radius = ol.easing.easeOut(elapsedRatio) * 25 + 5;
+            var opacity = ol.easing.easeOut(1 - elapsedRatio);
+
+            var style = new ol.style.Style({
+              image: new ol.style.Circle({
+                radius: radius,
+                snapToPixel: false,
+                stroke: new ol.style.Stroke({
+                  color: 'rgba(255, 0, 0, ' + opacity + ')',
+                  width: 0.25 + opacity
+                })
+              })
+            });
+
+            vectorContext.setStyle(style);
+            vectorContext.drawGeometry(flashGeom);
+            if (elapsed > duration) {
+              ol.Observable.unByKey(listenerKey);
+              return;
+            }
+            // tell OL3 to continue postcompose animation
+            map.render();
+          }
+          listenerKey = map.on('postcompose', animate);
+        }
+
+        source.on('addfeature', function(e) {
+          flash(e.feature);
+        });
+
+        window.setInterval(addRandomFeature, 1000);
+
+</script>
 <h2 class="sub-header">Inventory Items</h2>
 <div class="table-responsive">
   <table class="table table-striped">
@@ -35,16 +129,16 @@
       <tr>
         <th>Item ID</th>
         <th>Count</th>
-        <th>Unseen</th>
       </tr>
     </thead>
     <tbody>
-      {% for item in items_list %}
+      {% for inventory_item in inventory_list %}
+      {% if inventory_item.item_data %}
       <tr>
-        <td>{{ item.item_id }}</td>
-        <td>{{ item.count }}</td>
-        <td>{{ item.unseen }}</td>
+        <td>{{ inventory_item.item_data.name }}</td>
+        <td>{{ inventory_item.count }}</td>
       </tr>
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>
@@ -56,6 +150,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Name</th>
         <th>#</th>
         <th>CP</th>
         <th>
@@ -67,28 +162,29 @@
       </tr>
     </thead>
     <tbody>
-      {% for pokemon in pokemon_list %}
-      {% if not pokemon.is_egg %}
+      {% for pokemon in inventory_list %}
+      {% if pokemon.poke_data %}
       <tr>
-        <td>{{ pokemon.pokemon_id }}</td>
-        <td>{{ pokemon.cp }}<br />Multiplier: {{ pokemon.cp_multiplier }}</td>
-        <td> Normal: {{ pokemon.stamina }} <br />
-          Max: {{ pokemon.stamina_max }}
+        <td>{{ pokemon.poke_data.poke_data.name }}</td>
+        <td>{{ pokemon.poke_data.pokemon_id }}</td>
+        <td>{{ pokemon.poke_data.cp }}<br />Multiplier: {{ pokemon.poke_data.cp_multiplier }}</td>
+        <td> Normal: {{ pokemon.poke_data.stamina }} <br />
+          Max: {{ pokemon.poke_data.stamina_max }}
         </td>
         <td>
-          A: {{ pokemon.individual_attack }} <br />
-          D: {{ pokemon.individual_defense }} <br />
-          S: {{ pokemon.individual_stamina }} <br />
+          A: {{ pokemon.poke_data.individual_attack }} <br />
+          D: {{ pokemon.poke_data.individual_defense }} <br />
+          S: {{ pokemon.poke_data.individual_stamina }} <br />
         </td>
-        <td>1: {{ pokemon.move_1 }} <br />
-            2: {{ pokemon.move_2 }}
+        <td>1: {{ pokemon.poke_data.move_1 }} <br />
+            2: {{ pokemon.poke_data.move_2 }}
         </td>
         <td>
-          Height: {{ pokemon.height_m }} <br />
-          Weight: {{ pokemon.weight_kg }}
+          Height: {{ pokemon.poke_data.height_m }} <br />
+          Weight: {{ pokemon.poke_data.weight_kg }}
         </td>
       </tr>
-    {% endif %}
+      {% endif %}
       {% endfor %}
     </tbody>
   </table>
