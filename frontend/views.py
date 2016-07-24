@@ -12,8 +12,41 @@ from .models import Profile, InventoryItem, Pokemon, PokeData, ItemData, Statist
 # Views
 def get_location(profile):
     url = 'http://'+profile.connection.hostname+':'+str(profile.connection.port)+'/position'
-    location = requests.get(url).json()
+    try:
+        location = requests.get(url).json()
+    except:
+        location = False
     return location
+
+
+class Filldata(View):
+    def get(self, request, *args, **kwargs):
+        # item_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/items.json'
+        # item_response = requests.get(item_json).json()
+        # items_db = ItemData.objects.all()
+        # for key, value in item_response.iteritems():
+        #     item, created = ItemData.objects.get_or_create(
+        #         item_id = key
+        #     )
+        #     item.name = value
+        #     item.save()
+
+        poke_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/pokemon.json'
+        poke_response = requests.get(poke_json).json()
+        poke_db = PokeData.objects.all()
+        for poke in poke_response:
+            pokedata, created = PokeData.objects.get_or_create(
+                poke_id = poke['Number']
+            )
+            pokedata.name = poke['Name']
+            pokedata.candy = poke.get('Amount', 0)
+            pokedata.save()
+
+
+        return HttpResponse('ok')
+
+
+
 
 class PokeList(View):
     def get(self, request, *args, **kwargs):

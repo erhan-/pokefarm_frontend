@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from frontend.views import PokeList, Sync
+from frontend.views import PokeList, Sync, Filldata
 
 
 
@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'pokelist/(?:(?P<account_id>\d+)/)?$', PokeList.as_view(), name='pokelist'),
     url(r'sync/(?:(?P<account_id>\d+)/)?$', Sync.as_view(), name='sync'),
+    url(r'fill/$', Filldata.as_view(), name='fill'),
 ]

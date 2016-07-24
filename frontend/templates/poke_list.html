@@ -32,7 +32,7 @@ Google Account
 </p>
 </div>
 </div>
-
+{% if location %}
 <h2>Location</h2>
     <script src="http://openlayers.org/en/v3.17.1/build/ol.js"></script>
 
@@ -144,12 +144,13 @@ Google Account
   </table>
 </div>
 
-
+{% endif %}
 <h2 class="sub-header">Pokemon List</h2>
 <div class="table-responsive">
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Pic</th>
         <th>Name</th>
         <th>#</th>
         <th>CP</th>
@@ -165,6 +166,10 @@ Google Account
       {% for pokemon in inventory_list %}
       {% if pokemon.poke_data %}
       <tr>
+        {% if pokemon.poke_data.pokemon_id|length == 3 %}
+        #####
+        {%endif%}
+        <td><img src="http://serebii.net/pokemongo/pokemon/{{ pokemon.poke_data.pokemon_id }}.png" alt="" /></td>
         <td>{{ pokemon.poke_data.poke_data.name }}</td>
         <td>{{ pokemon.poke_data.pokemon_id }}</td>
         <td>{{ pokemon.poke_data.cp }}<br />Multiplier: {{ pokemon.poke_data.cp_multiplier }}</td>

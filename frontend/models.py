@@ -33,6 +33,7 @@ class Eggs(models.Model):
     km = models.IntegerField()
     km2go = models.FloatField()
 
+
 class PokeData(models.Model):
     name = models.CharField(max_length=42,default='Missingno')
     poke_id = models.IntegerField(blank=True,default=0)
