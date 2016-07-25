@@ -30,6 +30,27 @@ class Overview(View):
 
         return render(request, 'overview.html', {'profile_list': profile_list})
 
+class SendConfig(View):
+    def post(self, request, *args, **kwargs):
+        # get auth toiken from post
+
+        if not token in request.POST
+            return HttpResponse('fuckoff')
+        token = request.POST.get('token')
+        connection = get_object_or_404(Connection, token=token)
+        profile = Profile.objects.get(connection=connection)
+        if profile.connection.ptc:
+            auth = 'ptc'
+        else:
+            auth = 'google'
+        data = {
+            'username': profle.account.username,
+            'password': profile.account.password,
+            'auth': auth,
+            }
+        json_response = json.dumps(data)
+        return HttpResponse(json_response)
+
 
 class Filldata(View):
     def get(self, request, *args, **kwargs):
