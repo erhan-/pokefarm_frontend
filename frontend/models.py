@@ -21,14 +21,20 @@ class Statistics(models.Model):
     level = models.IntegerField()
     km_walked = models.FloatField()
 
+class Settings(models.Model):
+    min_cp = models.IntegerField(default=0)
+    latitude = models.FloatField(default=0.0)
+    longitude = models.FloatField(default=0.0)
+
 class Profile(models.Model):
     player_name = models.CharField(max_length=40)
     account = models.ForeignKey(Account)
     connection = models.ForeignKey(Connection)
     statistics = models.ForeignKey(Statistics)
-    loc_latitude = models.FloatField(default=0.0)
-    loc_longitude = models.FloatField(default=0.0)
-    min_cp = models.IntegerField(default=0)
+    settings = models.ForeignKey(Settings)
+
+
+
 
 class Eggs(models.Model):
     km = models.IntegerField()
