@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from frontend.views import PokeList, Sync, Filldata, ReleasePoke, EvolvePoke
+from frontend.views import PokeList, Sync, Filldata, ReleasePoke, EvolvePoke, Overview
 
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', Overview.as_view()),
     url(r'list/(?:(?P<account_id>\d+)/)?$', PokeList.as_view(), name='list'),
     url(r'sync/(?:(?P<account_id>\d+)/)?$', Sync.as_view(), name='sync'),
     url(r'release/(?:(?P<account_id>\d+)/(?:(?P<poke_id>\d+)/))?$', ReleasePoke.as_view(), name='release'),

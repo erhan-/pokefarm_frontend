@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+
+{% block title %}Poke List{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Dashboard</h1>
+
+<h2 class="sub-header">Profiles</h2>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Player Name</th>
+        <th>Statistics</th>
+        <th>Username</th>
+        <th>Password</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for profile in profile_list %}
+      <tr>
+        <td><a href="/list/{{ profile.pk }}/">{{ profile.player_name }}</a></td>
+        <td>
+          Level: {{ profile.statistics.level }} <br />
+          Experience: {{ profile.statistics.experience }} <br />
+          KM walked: {{ profile.statistics.km_walked }}
+        </td>
+        <td>{{ profile.account.username }}</td>
+        <td>{{ profile.account.password }}</td>
+        <td>
+          <a href="/sync/{{ profile.pk }}/" class="btn btn-primary">Refresh Inventory</a>
+</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+{% endblock %}

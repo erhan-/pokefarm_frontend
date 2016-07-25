@@ -23,6 +23,14 @@ def get_location(profile):
     return location
 
 
+class Overview(View):
+    def get(self, request, *args, **kwargs):
+
+        profile_list = Profile.objects.all()
+
+        return render(request, 'overview.html', {'profile_list': profile_list})
+
+
 class Filldata(View):
     def get(self, request, *args, **kwargs):
         # item_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/items.json'
