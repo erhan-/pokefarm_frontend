@@ -1,3 +1,12 @@
-db.sqlite3
-*.pyc
-*/*migrations
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# C extensions
+*.so
+
+#django sqlite
+*.sqlite
+*.db
+*.sqlite3
+*.db3

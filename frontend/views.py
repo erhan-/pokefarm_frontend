@@ -7,8 +7,8 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import redirect
 
 from django.http import HttpResponseRedirect, Http404
-
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 # Models
 from .models import Profile, InventoryItem, Pokemon, PokeData, ItemData, Statistics, Connection
 
@@ -30,11 +30,13 @@ class Overview(View):
 
         return render(request, 'overview.html', {'profile_list': profile_list})
 
+@method_decorator(csrf_exempt, name='dispatch')
 class SendConfig(View):
+
     def post(self, request, *args, **kwargs):
         # get auth toiken from post
 
-        if not token in request.POST:
+        if not 'token' in request.POST:
             data = {'status': 2}
             return HttpResponse(json.dumps(data))
         token = request.POST.get('token')
