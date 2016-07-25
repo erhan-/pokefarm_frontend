@@ -50,9 +50,12 @@ class SendConfig(View):
             'status': 1,
             'username': profile.account.username,
             'password': profile.account.password,
-            'auth': auth,
+            'auth_service': auth,
             'min_cp': profile.min_cp,
             'port': profile.connection.port,
+            'latitude': profile.settings.latitude,
+            'longitude': profile.settings.longitude,
+
             }
         json_response = json.dumps(data)
         return HttpResponse(json_response)
