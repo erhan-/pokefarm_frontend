@@ -170,7 +170,7 @@ Google Account
       {% if pokemon.poke_data %}
       <tr>
 
-        <td><img src="http://serebii.net/pokemongo/pokemon/{{ pokemon.poke_data.pokemon_id }}.png" alt="" /></td>
+        <td><img src="{{ pokemon.poke_data.picture.url }}" alt="" /></td>
         <td><b>{{ pokemon.poke_data.poke_data.name }}</b></td>
         <td>{{ pokemon.poke_data.pokemon_id }}<br /> {{ pokemon.poke_data.individual_id }}</td>
         <td>{{ pokemon.poke_data.cp }}<br />Multiplier: {{ pokemon.poke_data.cp_multiplier }}</td>
