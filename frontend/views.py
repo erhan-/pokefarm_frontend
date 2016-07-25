@@ -51,7 +51,7 @@ class SendConfig(View):
             'username': profile.account.username,
             'password': profile.account.password,
             'auth_service': auth,
-            'min_cp': profile.min_cp,
+            'min_cp': profile.settings.min_cp,
             'port': profile.connection.port,
             'latitude': profile.settings.latitude,
             'longitude': profile.settings.longitude,
