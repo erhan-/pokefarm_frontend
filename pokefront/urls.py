@@ -16,8 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from frontend.views import PokeList, Sync, Filldata, ReleasePoke, EvolvePoke, Overview, SendConfig
-
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -28,4 +28,4 @@ urlpatterns = [
     url(r'evolve/(?:(?P<account_id>\d+)/(?:(?P<poke_id>\d+)/))?$', EvolvePoke.as_view(), name='evolve'),
     url(r'fill/$', Filldata.as_view(), name='fill'),
     url(r'get_config/$', SendConfig.as_view(), name='send_config'),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

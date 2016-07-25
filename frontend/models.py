@@ -28,6 +28,7 @@ class Profile(models.Model):
     statistics = models.ForeignKey(Statistics)
     loc_latitude = models.FloatField(default=0.0)
     loc_longitude = models.FloatField(default=0.0)
+    min_cp = models.IntegerField(default=0)
 
 class Eggs(models.Model):
     km = models.IntegerField()
@@ -46,7 +47,7 @@ class PokeData(models.Model):
     base_flee_rate = models.FloatField(blank=True,default=0.0)
     evolution = models.IntegerField(blank=True,default=0)
     candy = models.IntegerField(blank=True,default=0)
-    picture = models.ImageField(blank=True,default=0)
+    picture = models.ImageField(blank=True,upload_to='pokeimg/')
 
 class Pokemon(models.Model):
     individual_id = models.CharField(max_length=64)
