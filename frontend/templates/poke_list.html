@@ -160,18 +160,17 @@ Google Account
         <th>IV Values</th>
         <th>Moves</th>
         <th>H / W</th>
+        <td>Actions</td>
       </tr>
     </thead>
     <tbody>
       {% for pokemon in inventory_list %}
       {% if pokemon.poke_data %}
       <tr>
-        {% if pokemon.poke_data.pokemon_id|length == 3 %}
-        #####
-        {%endif%}
+
         <td><img src="http://serebii.net/pokemongo/pokemon/{{ pokemon.poke_data.pokemon_id }}.png" alt="" /></td>
-        <td>{{ pokemon.poke_data.poke_data.name }}</td>
-        <td>{{ pokemon.poke_data.pokemon_id }}</td>
+        <td><b>{{ pokemon.poke_data.poke_data.name }}</b></td>
+        <td>{{ pokemon.poke_data.pokemon_id }}<br /> {{ pokemon.poke_data.individual_id }}</td>
         <td>{{ pokemon.poke_data.cp }}<br />Multiplier: {{ pokemon.poke_data.cp_multiplier }}</td>
         <td> Normal: {{ pokemon.poke_data.stamina }} <br />
           Max: {{ pokemon.poke_data.stamina_max }}
@@ -187,6 +186,12 @@ Google Account
         <td>
           Height: {{ pokemon.poke_data.height_m }} <br />
           Weight: {{ pokemon.poke_data.weight_kg }}
+        </td>
+        <td>
+          <a href="/release/2/{{ pokemon.poke_data.individual_id }}/" class="btn btn-primary">Release</a>
+          <a href="/evolve/2/{{ pokemon.poke_data.individual_id }}/" class="btn btn-primary">Evolve</a>
+          <button type="button" class="btn btn-primary">Rename</button>
+          <button type="button" class="btn btn-primary">Grow</button>
         </td>
       </tr>
       {% endif %}

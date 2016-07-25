@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+
+{% block title %}Evolving Pokemon{% endblock %}
+
+{% block content %}
+<h1 class="page-header">Evolving</h1>
+<p>
+  Do you really want to Evolve {{ poke.poke_data.name }} to {{ evolved.name }}?
+</p>
+<form action="" method="POST">
+{% csrf_token %}
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" name="sure"> Yes I am sure!
+    </label>
+  </div>
+  <button type="submit" class="btn btn-primary">Evolve</button>
+  <button class="btn btn-danger">Cancel</button>
+</form>
+{% endblock %}
