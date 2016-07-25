@@ -21,7 +21,7 @@ class Statistics(models.Model):
     level = models.IntegerField()
     km_walked = models.FloatField()
 
-class Settings(models.Model):
+class PSettings(models.Model):
     min_cp = models.IntegerField(default=0)
     latitude = models.FloatField(default=0.0)
     longitude = models.FloatField(default=0.0)
@@ -31,7 +31,7 @@ class Profile(models.Model):
     account = models.ForeignKey(Account)
     connection = models.ForeignKey(Connection)
     statistics = models.ForeignKey(Statistics)
-    settings = models.ForeignKey(Settings)
+    settings = models.ForeignKey(PSettings)
 
 
 
