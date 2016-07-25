@@ -42,7 +42,7 @@ class SendConfig(View):
         token = request.POST.get('token')
         connection = get_object_or_404(Connection, token=token)
         profile = Profile.objects.get(connection=connection)
-        if profile.connection.ptc:
+        if profile.account.ptc:
             auth = 'ptc'
         else:
             auth = 'google'
