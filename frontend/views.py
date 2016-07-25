@@ -58,17 +58,17 @@ class SendConfig(View):
 
 class Filldata(View):
     def get(self, request, *args, **kwargs):
-        # item_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/items.json'
-        # item_response = requests.get(item_json).json()
-        # items_db = ItemData.objects.all()
-        # for key, value in item_response.iteritems():
-        #     item, created = ItemData.objects.get_or_create(
-        #         item_id = key
-        #     )
-        #     item.name = value
-        #     item.save()
+        item_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/items.json'
+        item_response = requests.get(item_json).json()
+        items_db = ItemData.objects.all()
+        for key, value in item_response.iteritems():
+            item, created = ItemData.objects.get_or_create(
+                item_id = key
+            )
+            item.name = value
+            item.save()
 
-        profi = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/pokemon.json'
+        poke_json = 'https://raw.githubusercontent.com/PokemonGoF/PokemonGo-Bot/dev/data/pokemon.json'
         poke_response = requests.get(poke_json).json()
         poke_db = PokeData.objects.all()
         for poke in poke_response:
