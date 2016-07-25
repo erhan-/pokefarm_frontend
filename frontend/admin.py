@@ -18,3 +18,4 @@ class PokemonAdmin(admin.ModelAdmin):
 admin.site.register(Pokemon, PokemonAdmin)
 admin.site.register(InventoryItem)
 admin.site.register(ItemData)
+admin.register(Settings)
