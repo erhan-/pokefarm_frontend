@@ -48,7 +48,7 @@ class SendConfig(View):
             auth = 'google'
         data = {
             'status': 1,
-            'username': profle.account.username,
+            'username': profile.account.username,
             'password': profile.account.password,
             'auth': auth,
             }
