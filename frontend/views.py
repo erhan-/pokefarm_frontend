@@ -34,8 +34,9 @@ class SendConfig(View):
     def post(self, request, *args, **kwargs):
         # get auth toiken from post
 
-        if not token in request.POST
-            return HttpResponse('fuckoff')
+        if not token in request.POST:
+            data = {'status': 2}
+            return HttpResponse(json.dumps(data))
         token = request.POST.get('token')
         connection = get_object_or_404(Connection, token=token)
         profile = Profile.objects.get(connection=connection)
@@ -44,6 +45,7 @@ class SendConfig(View):
         else:
             auth = 'google'
         data = {
+            'status': 1,
             'username': profle.account.username,
             'password': profile.account.password,
             'auth': auth,
