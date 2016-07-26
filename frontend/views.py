@@ -37,7 +37,7 @@ class Position(View):
     def post(self, request, *args, **kwargs):
         profile = Profile.objects.get(id=kwargs['account_id'])
         url = 'http://'+profile.connection.hostname+':'+str(profile.connection.port)+'/position'
-        if ('latitude' in request.POST) and ('longitude' in request.POST)
+        if ('latitude' in request.POST) and ('longitude' in request.POST):
             lat = request.POST.get('latitude')
             lng = request.POST.get('longitude')
             data = {'lat': lat,'lng': lng, 'alt': 0}
