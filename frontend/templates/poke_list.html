@@ -39,6 +39,7 @@ Google Account
     <script src="http://openlayers.org/en/v3.17.1/build/ol.js"></script>
 
 
+
 <div id="map" class="map"></div>
 <script>
   var map = new ol.Map({
@@ -124,6 +125,25 @@ Google Account
         window.setInterval(addRandomFeature, 1000);
 
 </script>
+
+<h2>Set Location</h2>
+
+<form action="/{{profile.account.pk}}/position" method="POST">
+{% csrf_token %}
+
+<div class="form-group">
+  <label for="latitude">Latitude</label>
+  <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude">
+</div>
+<div class="form-group">
+  <label for="longitude">Longitude</label>
+  <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude">
+</div>
+  <button type="submit" class="btn btn-primary">Go</button>
+</form>
+
+
+
 <h2 class="sub-header">Inventory Items</h2>
 <div class="table-responsive">
   <table class="table table-striped">
