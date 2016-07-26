@@ -190,8 +190,8 @@ Google Account
           Weight: {{ pokemon.poke_data.weight_kg }}
         </td>
         <td>
-          <a href="/release/2/{{ pokemon.poke_data.individual_id }}/" class="btn btn-primary">Release</a>
-          <a href="/evolve/2/{{ pokemon.poke_data.individual_id }}/" class="btn btn-primary">Evolve</a>
+          <a href="/release/{{profile.account.pk}}/{{ pokemon.poke_data.individual_id }}/" class="btn btn-primary">Release</a>
+          <a href="/evolve/2/{{ profile.account.pk }}/" class="btn btn-primary">Evolve</a>
           <button type="button" class="btn btn-primary">Rename</button>
           <button type="button" class="btn btn-primary">Grow</button>
         </td>
