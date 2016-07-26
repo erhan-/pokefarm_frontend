@@ -30,6 +30,30 @@ class Overview(View):
 
         return render(request, 'overview.html', {'profile_list': profile_list})
 
+
+
+class Position(View):
+
+    def post(self, request, *args, **kwargs):
+        profile = Profile.objects.get(id=kwargs['account_id'])
+        url = 'http://'+profile.connection.hostname+':'+str(profile.connection.port)+'/position'
+        if ('latitude' in request.POST) and ('longitude' in request.POST)
+            lat = request.POST.get('latitude')
+            lng = request.POST.get('longitude')
+            data = {'lat': lat,'lng': lng, 'alt': 0}
+            response = requests.post(url,data=data, auth=('admin', 'secret')).json()
+            return HttpResponse(response)
+        else:
+            return HttpResponse("Error")
+
+
+class Overview(View):
+    def get(self, request, *args, **kwargs):
+
+        profile_list = Profile.objects.all()
+
+        return render(request, 'overview.html', {'profile_list': profile_list})
+
 @method_decorator(csrf_exempt, name='dispatch')
 class SendConfig(View):
 
