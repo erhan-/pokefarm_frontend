@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from frontend.views import PokeList, Sync, Filldata, ReleasePoke, EvolvePoke, Overview, SendConfig
+from frontend.views import PokeList, Sync, Filldata, Position, ReleasePoke, EvolvePoke, Overview, SendConfig
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^$', Overview.as_view()),
     url(r'list/(?:(?P<account_id>\d+)/)?$', PokeList.as_view(), name='list'),
     url(r'sync/(?:(?P<account_id>\d+)/)?$', Sync.as_view(), name='sync'),
+    url(r'position/(?:(?P<account_id>\d+)/)?$', Position.as_view(), name='position'),
     url(r'release/(?:(?P<account_id>\d+)/(?:(?P<poke_id>\d+)/))?$', ReleasePoke.as_view(), name='release'),
     url(r'evolve/(?:(?P<account_id>\d+)/(?:(?P<poke_id>\d+)/))?$', EvolvePoke.as_view(), name='evolve'),
     url(r'fill/$', Filldata.as_view(), name='fill'),
