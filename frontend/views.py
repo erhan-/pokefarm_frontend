@@ -31,9 +31,8 @@ class Overview(View):
         return render(request, 'overview.html', {'profile_list': profile_list})
 
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class Position(View):
-
     def post(self, request, *args, **kwargs):
         profile = Profile.objects.get(id=kwargs['account_id'])
         url = 'http://'+profile.connection.hostname+':'+str(profile.connection.port)+'/position'
