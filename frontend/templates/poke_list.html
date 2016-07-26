@@ -128,7 +128,7 @@ Google Account
 
 <h2>Set Location</h2>
 
-<form action="/{{profile.account.pk}}/position/" method="POST">
+<form action="/position/{{profile.account.pk}}/" method="POST">
 {% csrf_token %}
 
 <div class="form-group">
