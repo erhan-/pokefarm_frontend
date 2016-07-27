@@ -46,6 +46,20 @@ class Position(View):
             return HttpResponse("Error")
 
 
+@method_decorator(csrf_exempt, name='dispatch')
+class Nickname(View):
+    def post(self, request, *args, **kwargs):
+        profile = Profile.objects.get(id=kwargs['account_id'])
+        url = 'http://'+profile.connection.hostname+':'+str(profile.connection.port)+'/nickname'
+        if 'nickname' in request.POST:
+            data = {'nickname': request.POST.get('nickname')}
+            response = requests.post(url,data=data, auth=('admin', 'secret'))
+            return HttpResponse(response)
+        else:
+            return HttpResponse("Error")
+
+
+
 class Overview(View):
     def get(self, request, *args, **kwargs):
 

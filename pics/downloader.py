@@ -1,4 +1,4 @@
-#!/bin/python
+#!/usr/bin/python
 import urllib
 
 for i in range(1, 252):
